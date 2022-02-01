@@ -59,7 +59,7 @@ def main(place):
 
 
 if __name__ == "__main__":
-    scale = 0.15
+    scale = 0.16
     move_x = 0
     move_y = 0
-    main(['Москва'])
+    main(['Санкт-Петербург'])
