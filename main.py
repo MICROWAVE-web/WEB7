@@ -26,7 +26,6 @@ def get_image(name):
     geos[0] += move_x
     geos[1] += move_y
     geos = ','.join(list(map(str, geos)))
-    print(z)
     response = requests.get(
         f"http://static-maps.yandex.ru/1.x/?ll={geos}&z={z}&l=map")
 
@@ -67,23 +66,27 @@ def main(place):
                         z -= 1
                         current_image = get_image(place)
                 if ev.key == pygame.K_UP:
-                    move_y += 0.01
+                    if -90 <= move_y + 0.05 <= 90:
+                        move_y += 0.05
                     current_image = get_image(place)
                 if ev.key == pygame.K_DOWN:
-                    move_y -= 0.01
+                    if -90 <= move_y - 0.05 <= 90:
+                        move_y -= 0.05
                     current_image = get_image(place)
                 if ev.key == pygame.K_RIGHT:
-                    move_x += 0.01
-                    current_image = get_image(place)
+                    if -180 <= move_x + 0.05 <= 180:
+                        move_x += 0.05
+                        current_image = get_image(place)
                 if ev.key == pygame.K_LEFT:
-                    move_x -= 0.01
-                    current_image = get_image(place)
+                    if -180 <= move_x - 0.05 <= 180:
+                        move_x -= 0.05
+                        current_image = get_image(place)
         pygame.display.flip()
     pygame.quit()
 
 
 if __name__ == "__main__":
-    z = 11
+    z = 12
     move_x = 0
     move_y = 0
-    main(['Санкт-Петербург'])
+    main(['Лондон'])
