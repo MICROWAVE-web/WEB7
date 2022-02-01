@@ -67,19 +67,19 @@ def main(place):
                     z /= 1.6
                     current_image = get_image(place)
                 if ev.key == pygame.K_UP:
-                    if -90 <= move_y + 0.05 <= 90:
+                    if -90 <= move_y + z * 2 <= 90:
                         move_y += z * 2
                     current_image = get_image(place)
                 if ev.key == pygame.K_DOWN:
-                    if -90 <= move_y - 0.05 <= 90:
+                    if -90 <= move_y - z * 2 <= 90:
                         move_y -= z * 2
                     current_image = get_image(place)
                 if ev.key == pygame.K_RIGHT:
-                    if -180 <= move_x + 0.05 <= 180:
+                    if -180 <= move_x + z * 2 <= 180:
                         move_x += z * 2
                         current_image = get_image(place)
                 if ev.key == pygame.K_LEFT:
-                    if -180 <= move_x - 0.05 <= 180:
+                    if -180 <= move_x - z * 2 <= 180:
                         move_x -= z * 2
                         current_image = get_image(place)
         pygame.display.flip()
@@ -87,7 +87,7 @@ def main(place):
 
 
 if __name__ == "__main__":
-    z = 0.02
+    z = 3
     move_x = 0
     move_y = 0
     main(['Лондон'])
