@@ -25,9 +25,10 @@ def get_image(name):
     geos = list(map(float, geo_search(name).split(',')))
     geos[0] += move_x
     geos[1] += move_y
+    print(z)
     geos = ','.join(list(map(str, geos)))
     response = requests.get(
-        f"http://static-maps.yandex.ru/1.x/?ll={geos}&z={z}&l=map")
+        f"http://static-maps.yandex.ru/1.x/?ll={geos}&spn={round(z, 4)},{round(z, 4)}&l=map")
 
     if not response:
         print("Ошибка выполнения запроса:")
@@ -58,35 +59,35 @@ def main(place):
                 if ev.key == pygame.K_q:
                     run = False
                 if ev.key == pygame.K_PAGEUP:
-                    if 0 <= z + 1 <= 17:
-                        z += 1
-                        current_image = get_image(place)
+                    # if 0 <= z + 1 <= 17:
+                    z *= 1.6
+                    current_image = get_image(place)
                 if ev.key == pygame.K_PAGEDOWN:
-                    if 1 <= z - 1 <= 17:
-                        z -= 1
-                        current_image = get_image(place)
+                    # if 1 <= z - 1 <= 17:
+                    z /= 1.6
+                    current_image = get_image(place)
                 if ev.key == pygame.K_UP:
                     if -90 <= move_y + 0.05 <= 90:
-                        move_y += 0.05
+                        move_y += z * 2
                     current_image = get_image(place)
                 if ev.key == pygame.K_DOWN:
                     if -90 <= move_y - 0.05 <= 90:
-                        move_y -= 0.05
+                        move_y -= z * 2
                     current_image = get_image(place)
                 if ev.key == pygame.K_RIGHT:
                     if -180 <= move_x + 0.05 <= 180:
-                        move_x += 0.05
+                        move_x += z * 2
                         current_image = get_image(place)
                 if ev.key == pygame.K_LEFT:
                     if -180 <= move_x - 0.05 <= 180:
-                        move_x -= 0.05
+                        move_x -= z * 2
                         current_image = get_image(place)
         pygame.display.flip()
     pygame.quit()
 
 
 if __name__ == "__main__":
-    z = 12
+    z = 0.02
     move_x = 0
     move_y = 0
     main(['Лондон'])
