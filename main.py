@@ -21,12 +21,13 @@ def geo_search(search):
 
 
 def get_image(name):
+    global scale, move_x, move_y
     geos = list(map(float, geo_search(name).split(',')))
     geos[0] += move_x
     geos[1] += move_y
     geos = ','.join(list(map(str, geos)))
     response = requests.get(
-        f"http://static-maps.yandex.ru/1.x/?ll={geos}&spn={scale},{scale}&l=map")
+        f"http://static-maps.yandex.ru/1.x/?ll={geos}&scale={round(scale, 2)}&spn=0.5,0.5&l=map")
 
     if not response:
         print("Ошибка выполнения запроса:")
@@ -41,25 +42,35 @@ def get_image(name):
 
 
 def main(place):
+    global scale, move_x, move_y
     pygame.init()
     screen = pygame.display.set_mode((600, 450))
     pygame.display.set_caption('Слайд-шоу')
     clock = pygame.time.Clock()
     run = True
+    current_image = get_image(place)
     while run:
         clock.tick(144)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        screen.blit(current_image, (0, 0))
+        for ev in pygame.event.get():
+            if ev.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.K_PAGEUP:
-                print(111)
-        screen.blit(get_image(place), (0, 0))
+            if ev.type == pygame.KEYDOWN:
+                if ev.key == pygame.K_q:
+                    run = False
+                if ev.key == pygame.K_PAGEUP:
+                    scale += 0.1
+                    current_image = get_image(place)
+                if ev.key == pygame.K_PAGEDOWN:
+                    scale -= 0.1
+                    current_image = get_image(place)
         pygame.display.flip()
-    pygame.quit()
 
+
+pygame.quit()
 
 if __name__ == "__main__":
-    scale = 0.16
+    scale = 1
     move_x = 0
     move_y = 0
     main(['Санкт-Петербург'])
