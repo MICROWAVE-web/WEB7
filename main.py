@@ -66,6 +66,18 @@ def main(place):
                     if 1 <= z - 1 <= 17:
                         z -= 1
                         current_image = get_image(place)
+                if ev.key == pygame.K_UP:
+                    move_y += 0.01
+                    current_image = get_image(place)
+                if ev.key == pygame.K_DOWN:
+                    move_y -= 0.01
+                    current_image = get_image(place)
+                if ev.key == pygame.K_RIGHT:
+                    move_x += 0.01
+                    current_image = get_image(place)
+                if ev.key == pygame.K_LEFT:
+                    move_x -= 0.01
+                    current_image = get_image(place)
         pygame.display.flip()
     pygame.quit()
 
